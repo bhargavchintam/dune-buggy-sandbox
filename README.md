@@ -34,6 +34,14 @@ Terrain, ramps, loops, wheels and dust are all generated in code, so the game
 runs on its own. The buggy body is an optional external **CC0** model (a Kenney
 car kit); without it the buggy falls back to a simple placeholder box.
 
+Pass `--frames N` to run headless for N task-manager frames and exit (no
+window, no audio) — handy for CI smoke tests: `python dune_buggy_sandbox.py --frames 5`.
+
+## Tests
+```bash
+pip install -r requirements.txt && python -m pytest
+```
+
 ## Screenshots
 | Overview | Jump through a loop | Dunes |
 |---|---|---|

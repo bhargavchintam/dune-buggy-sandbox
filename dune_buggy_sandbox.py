@@ -32,7 +32,7 @@ from panda3d.core import (
     TransformState, TransparencyAttrib, CardMaker,
     GeomVertexFormat, GeomVertexData, GeomVertexWriter,
     Geom, GeomTriangles, GeomNode, NodePath,
-    SamplerState, ClockObject,
+    SamplerState, ClockObject, loadPrcFileData,
 )
 from panda3d.bullet import (
     BulletWorld, BulletRigidBodyNode, BulletBoxShape, BulletVehicle,
@@ -222,6 +222,8 @@ def make_torus(R, r, seg_major=56, seg_minor=16, color=LOOP_COLOR):
 class DuneBuggy(ShowBase):
     def __init__(self):
         ShowBase.__init__(self)
+        if self.camera is None:            # window-type none (headless): no window means
+            self.camera = self.render.attachNewNode("camera")  # ShowBase never made one
         self.disableMouse()
         self.setBackgroundColor(0.53, 0.81, 0.95)          # plain blue sky (reference look)
 
@@ -657,4 +659,18 @@ class DuneBuggy(ShowBase):
 
 
 if __name__ == "__main__":
-    DuneBuggy().run()
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--frames", type=int, default=None,
+                         help="run headless for N task-manager frames and exit, instead of opening a window")
+    args = parser.parse_args()
+
+    if args.frames is not None:
+        loadPrcFileData("", "window-type none")
+        loadPrcFileData("", "audio-library-name null")
+        app = DuneBuggy()
+        for _ in range(args.frames):
+            app.taskMgr.step()
+    else:
+        DuneBuggy().run()
