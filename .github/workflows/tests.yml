@@ -1,0 +1,25 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install panda3d pytest -r requirements.txt
+      - name: Run the unit tests
+        run: python -m pytest
+      - name: Run the game headless for 5 frames (no window, no audio)
+        run: python dune_buggy_sandbox.py --frames 5
