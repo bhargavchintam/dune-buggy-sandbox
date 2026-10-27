@@ -50,3 +50,7 @@ pip install -r requirements.txt && python -m pytest
 ## Tech
 Panda3D · Bullet physics · GeoMipTerrain heightfield · procedural geometry (torus
 loops, wedge ramps, wheels) · GLSL-free.
+
+## Contributing
+See [CONTRIBUTING.md](CONTRIBUTING.md). CI runs the tests and a 5-frame headless
+run on every push and pull request.
